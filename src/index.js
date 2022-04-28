@@ -1,12 +1,12 @@
 import _ from 'lodash';
 import './style.css';
 import imgDots from './images/dots.png';
-import imgTrash from './images/trash.png'
+import imgTrash from './images/trash.png';
 import showInput from './modules/inputShow.js';
-import WrapContainer from './modules/wrapContainer';
-import UserTask from './modules/addAndRemove';
-import removeChecked from './modules/removeChecked';
-import SteerChecked from './modules/StearChecked';
+import WrapContainer from './modules/wrapContainer.js';
+import UserTask from './modules/addAndRemove.js';
+import removeChecked from './modules/removeChecked.js';
+import SteerChecked from './modules/StearChecked.js';
 
 WrapContainer();
 
@@ -20,17 +20,15 @@ input.addEventListener('keypress', (event) => {
     const checkItem2 = localStorage.getItem('TaskToday');
     const desc = input.value;
     let listLength;
-    if(!checkItem2)
-    {
+    if (!checkItem2) {
       listLength = 0;
-    }else{   
+    } else {
       const ArrayStored = localStorage.getItem('TaskToday');
       const ArrayStoredParse = JSON.parse(ArrayStored);
       listLength = ArrayStoredParse.length;
     }
     const AllTAsksR = new UserTask(desc, false, listLength);
     AllTAsksR.add();
-    
   }
 });
 
