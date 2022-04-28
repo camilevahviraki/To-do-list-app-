@@ -1,54 +1,55 @@
 import _ from 'lodash';
 import './style.css';
 import imgDots from './images/dots.png';
-import imgRecycle from './images/recycle.png';
+import imgTrash from './images/trash.png';
+import showInput from './modules/inputShow.js';
+import WrapContainer from './modules/wrapContainer.js';
+import UserTask from './modules/addAndRemove.js';
+import removeChecked from './modules/removeChecked.js';
+import SteerChecked from './modules/StearChecked.js';
 
-document.body.innerHTML = `<div class="container">
-   <h3>Today's to do
-   <img src=${imgRecycle} id="imgRecycle" alt=""/></h3>
-   <input type="text" placeholder="add your list..." id="inputD" draggable="true"/>
-   <ul id="list"></ul>
-   <button class="button_clear">Clear all selected</button>
-</div>`;
+WrapContainer();
 
-// const checkItem = localStorage.getItem('bookArrObj');
+const checkItem = localStorage.getItem('bookArrObj');
 const input = document.getElementById('inputD');
 const list = document.getElementById('list');
-const toDoList = [
-  {
-    description: 'take a ride',
-    completed: false,
-    index: '1',
-  },
-  {
-    description: 'go to swiming pool',
-    completed: false,
-    index: '2',
-  },
-  {
-    description: 'Go to study',
-    completed: false,
-    index: '3',
-  },
-
-];
 
 input.addEventListener('keypress', (event) => {
   if (event.key === 'Enter') {
     event.preventDefault();
+    const checkItem2 = localStorage.getItem('TaskToday');
     const desc = input.value;
-    const objectTask = {
-      description: `${desc}`,
-      completed: false,
-      index: `${toDoList.length}`,
-    };
-
-    toDoList.push(objectTask);
+    let listLength;
+    if (!checkItem2) {
+      listLength = 0;
+    } else {
+      const ArrayStored = localStorage.getItem('TaskToday');
+      const ArrayStoredParse = JSON.parse(ArrayStored);
+      listLength = ArrayStoredParse.length;
+    }
+    const AllTAsksR = new UserTask(desc, false, listLength);
+    AllTAsksR.add();
   }
 });
 
-toDoList.forEach((a) => {
-  list.innerHTML += `<li draggable="true">
+const ArrayStored2 = localStorage.getItem('TaskToday');
+const ArrayStoredParse2 = JSON.parse(ArrayStored2);
+
+const listR = ArrayStoredParse2;
+
+listR.forEach((a, i) => {
+  list.innerHTML += `<li class="listTasks" draggable="true">
   <input type="checkbox" name="" class="check">
-  <p>${a.description}<img class="imgTrash" src=${imgDots} alt=""/></p></li>`;
+  <p class="pTask" id="ptask${i}">${a.description}<img class="imgTrash" src=${imgDots} id="imdots${i}" alt=""/></p>
+  <input value="${a.description}" type="text" class="inputTask" id=${i} />
+  <img class="imgRemove" id="imtrash${i}" src=${imgTrash} alt=""/>
+  </li>`;
 });
+
+const update = new UserTask();
+update.updateStore();
+update.removeTask();
+showInput();
+SteerChecked();
+removeChecked();
+window.addEventListener('load', update.updateId);
