@@ -40,9 +40,11 @@ const listR = ArrayStoredParse2;
 listR.forEach((a, i) => {
   list.innerHTML += `<li class="listTasks" draggable="true">
   <input type="checkbox" name="" class="check">
-  <p class="pTask" id="ptask${i}">${a.description}<img class="imgTrash" src=${imgDots} id="imdots${i}" alt=""/></p>
-  <input value="${a.description}" type="text" class="inputTask" id=${i} />
-  <img class="imgRemove" id="imtrash${i}" src=${imgTrash} alt=""/>
+    <p class="pTask" id="ptask${i}">${a.description}
+      <img class="imgTrash" src=${imgDots} id="imdots${i}" alt=""/>
+    </p>
+      <input value="${a.description}" type="text" class="inputTask" id=${i} />
+     <img class="imgRemove" id="imtrash${i}" src=${imgTrash} alt=""/>
   </li>`;
 });
 
