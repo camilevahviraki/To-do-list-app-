@@ -27,7 +27,7 @@ To get a local copy up and running follow these simple example steps.
 
 ## See live demo
 
-- Type [this link]() to see the live demo off the app
+- Type [this link](https://camilevahviraki.github.io/To-do-list-App-R/) to see the live demo off the app
 
 
 ## Authors
