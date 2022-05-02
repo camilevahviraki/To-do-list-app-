@@ -25,6 +25,10 @@ To get a local copy up and running follow these simple example steps.
 - go to the repository folder in your command prompt `To-do-list-app`.
 - Open terminal in that folder and run `npm run start`.
 
+## See live demo
+
+- Type [this link]() to see the live demo off the app
+
 
 ## Authors
 
