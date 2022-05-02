@@ -6,7 +6,6 @@ const showInput = () => {
       document.getElementById(`ptask${i}`).style.display = 'none';
       document.getElementById(`imtrash${i}`).style.display = 'flex';
       document.getElementById(`imdots${i}`).style.display = 'none';
-      console.log();
     });
     a.addEventListener('mouseout', () => {
       document.getElementById(i).style.display = 'none';
