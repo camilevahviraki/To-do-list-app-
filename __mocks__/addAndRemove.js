@@ -1,4 +1,5 @@
-require('jest-localstorage-mock');
+import 'jest-localstorage-mock';
+
 const jsdom = require('jsdom');
 
 const { JSDOM } = jsdom;
@@ -29,6 +30,7 @@ class UserTask {
         <span id="username" /> 
         <img id="imtrash${testing.length}"
         <button class="imgRemove" /> 
+        <input type="checkbox" class="check" />
       </div>`;
       return testing.length;
       // location.reload();
@@ -44,25 +46,18 @@ class UserTask {
     // location.reload();
   }
 
-  updateStore() {
+  updateStore(description, id) {
     const ArrayStored = localStorage.getItem('TaskToday');
     const ArrayStoredParse = JSON.parse(ArrayStored);
     const a = this;
-    const inputs = document.querySelectorAll('.inputTask');
-    inputs.forEach((element, index) => {
-      element.addEventListener('keypress', (event) => {
-        if (event.key === 'Enter') {
-          event.preventDefault();
-
-          ArrayStoredParse.forEach((a, i) => {
-            const listUpdate = document.getElementById(i);
-            ArrayStoredParse[i].description = listUpdate.value;
-            localStorage.setItem('TaskToday', JSON.stringify(ArrayStoredParse));
-            // location.reload();
-          });
-        }
-      });
+    if (ArrayStoredParse.length === 0 || ArrayStoredParse.length < id) {
+      return -1;
+    }
+    ArrayStoredParse.forEach((a, i) => {
+      ArrayStoredParse[id].description = description;
+      localStorage.setItem('TaskToday', JSON.stringify(ArrayStoredParse));
     });
+    return JSON.parse(localStorage.getItem('TaskToday'))[id].description;
   }
 
   updateId() {
@@ -84,6 +79,28 @@ class UserTask {
     console.log(testing);
     return testing.length;
   }
+
+  check(id) {
+    this.updateId();
+    const TasksR = JSON.parse(localStorage.getItem('TaskToday'));
+    if (TasksR[id].completed === true) {
+      TasksR[id].completed = false;
+      localStorage.setItem('TaskToday', JSON.stringify(TasksR));
+      console.log(TasksR);
+    } else {
+      TasksR[id].completed = true;
+      localStorage.setItem('TaskToday', JSON.stringify(TasksR));
+      console.log(TasksR);
+    }
+  }
+
+  btnRemoveChecked() {
+    this.updateId();
+    const TasksR = JSON.parse(localStorage.getItem('TaskToday'));
+    const BookFiltered = TasksR.filter((book) => book.completed !== true);
+    localStorage.setItem('TaskToday', JSON.stringify(BookFiltered));
+    return BookFiltered.length;
+  }
 }
 
-module.exports = UserTask;
+export default UserTask;
