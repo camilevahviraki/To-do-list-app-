@@ -21,8 +21,8 @@ To get a local copy up and running follow these simple example steps.
 - copy this link `https://github.com/camilevahviraki/To-do-list-app.git`.
 - get the directory that you want to clone the repository.
 - open the command prompt in this directory.
-- write `https://github.com/camilevahviraki/To-do-list-app.git`.
-- go to the repository folder in your command prompt `To-do-list-app`.
+- write `git clone https://github.com/camilevahviraki/To-do-list-app.git`.
+- go to the repository folder in your command prompt `cd To-do-list-app`.
 - Open terminal in that folder and run `npm run start`.
 
 ## See live demo
