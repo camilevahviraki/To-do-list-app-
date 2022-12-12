@@ -4,7 +4,9 @@
 
 # To-do-list-App
 
-> This is my personnal App demo, feel free to check it out.
+> The todo List App allow you to have a list of important daily tasks and manage them easily.
+> You can have the possibility to delete a task once it's done.
+> You can edit a task if your plans changed  
 
 
 ## Built With
