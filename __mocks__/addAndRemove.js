@@ -9,7 +9,7 @@ const dom = new JSDOM(`
 const { document } = (new JSDOM('...')).window;
 
 const checkItem = localStorage.getItem('TaskToday');
-let toDoList = [];
+const toDoList = [];
 
 class UserTask {
   constructor(title1, author1, id1) {
@@ -24,26 +24,13 @@ class UserTask {
     } if (!checkItem) {
       toDoList.push(this);
       localStorage.setItem('TaskToday', JSON.stringify(toDoList));
-      const testing = JSON.parse(localStorage.getItem('TaskToday'));
-      document.body.innerHTML
-      += `<div > 
-        <span id="username" /> 
-        <img id="imtrash${testing.length}"
-        <button class="imgRemove" /> 
-        <input type="checkbox" class="check" />
-      </div>`;
-      return testing.length;
-      // location.reload();
+      return toDoList.length;
     }
     const ArrayStored = localStorage.getItem('TaskToday');
     const ArrayStoredParse = JSON.parse(ArrayStored);
     ArrayStoredParse.push(this);
     localStorage.setItem('TaskToday', JSON.stringify(ArrayStoredParse));
-    toDoList = JSON.parse(ArrayStored);
-    const testing = JSON.parse(localStorage.getItem('TaskToday'));
-    console.log(localStorage);
-    return testing.length;
-    // location.reload();
+    return ArrayStoredParse.length;
   }
 
   updateStore(description, id) {
@@ -53,10 +40,8 @@ class UserTask {
     if (ArrayStoredParse.length === 0 || ArrayStoredParse.length < id) {
       return -1;
     }
-    ArrayStoredParse.forEach((a, i) => {
-      ArrayStoredParse[id].description = description;
-      localStorage.setItem('TaskToday', JSON.stringify(ArrayStoredParse));
-    });
+    ArrayStoredParse[id].description = description;
+    localStorage.setItem('TaskToday', JSON.stringify(ArrayStoredParse));
     return JSON.parse(localStorage.getItem('TaskToday'))[id].description;
   }
 
@@ -72,11 +57,9 @@ class UserTask {
   removeTask(id) {
     this.updateId();
     const BookStored = JSON.parse(localStorage.getItem('TaskToday'));
-
     const BookFiltered = BookStored.filter((book, index) => book.index !== id);
     localStorage.setItem('TaskToday', JSON.stringify(BookFiltered));
     const testing = JSON.parse(localStorage.getItem('TaskToday'));
-    console.log(testing);
     return testing.length;
   }
 
@@ -86,11 +69,9 @@ class UserTask {
     if (TasksR[id].completed === true) {
       TasksR[id].completed = false;
       localStorage.setItem('TaskToday', JSON.stringify(TasksR));
-      console.log(TasksR);
     } else {
       TasksR[id].completed = true;
       localStorage.setItem('TaskToday', JSON.stringify(TasksR));
-      console.log(TasksR);
     }
   }
 
