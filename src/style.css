@@ -21,7 +21,9 @@ button {
 .container {
   width: 70%;
   max-width: 680px;
+
   /* border: 1px solid rgba(139, 137, 137, 0.623); */
+
   /* box-shadow: 1px 1px 15px #646464; */
   margin-top: 100px;
 }
@@ -71,7 +73,7 @@ body {
   top: 10px;
   left: 8px;
   cursor: pointer;
-;}
+}
 
 #inputD {
   width: calc(100% - 68px);
@@ -142,6 +144,16 @@ body {
   font-size: 18px;
 }
 
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #0c1113;
+  border-radius: 50%;
+}
+
 .check-container:hover input ~ .checkmark {
   background-color: #171b1d;
 }
@@ -152,16 +164,6 @@ body {
   height: 0;
   position: absolute;
   opacity: 0;
-}
-
-.checkmark {
-  position: absolute;
-  top: 0;
-  left: 0;
-  height: 20px;
-  width: 20px;
-  background-color: #0c1113;
-  border-radius: 50%;
 }
 
 .checkmark-img {
@@ -228,7 +230,6 @@ body {
 
 #error_message {
   font-family: 'Circular-Loom', sans-serif;
-  width: 60w;
   max-width: 680px;
   position: absolute;
   top: 60px;
