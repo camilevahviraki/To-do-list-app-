@@ -11,6 +11,7 @@ class UpdateList {
   computeTask() {
     const input = document.getElementById('inputD');
     input.addEventListener('keypress', (event) => {
+      this.message.innerText = '';
       if (event.key === 'Enter') {
         event.preventDefault();
         if (this.taskToday) {
@@ -74,21 +75,27 @@ class UpdateList {
 
   setCompleted = () => {
     const checkBoxs = document.querySelectorAll('.check');
+    const checkmarcks = document.querySelectorAll('.checkmark-img');
     checkBoxs.forEach((check, i) => {
       check.addEventListener('click', () => {
         this.message.innerText = '';
         if (this.taskToday[i].completed === true) {
           this.taskToday[i].completed = false;
           checkBoxs[i].checked = false;
+          checkmarcks[i].style.display = 'none';
           document.getElementById(`ptask${i}`).style.textDecoration = 'none';
           localStorage.setItem('TaskToday', JSON.stringify(this.taskToday));
         } else {
           this.taskToday[i].completed = true;
+          checkmarcks[i].style.display = 'flex';
           checkBoxs[i].checked = true;
-          document.getElementById(`ptask${i}`).style.textDecoration = 'line-through rgb(68, 68, 68)';
+          document.getElementById(`ptask${i}`).style.textDecoration = 'line-through #919191';
           localStorage.setItem('TaskToday', JSON.stringify(this.taskToday));
         }
       });
+      if (this.taskToday[i].completed) {
+        checkmarcks[i].style.display = 'flex';
+      }
     });
   }
 
@@ -96,8 +103,10 @@ class UpdateList {
     const inputs = document.querySelectorAll('.inputTask');
     inputs.forEach((element, i) => {
       element.addEventListener('keypress', (event) => {
+        this.message.innerText = '';
         if (event.key === 'Enter') {
           this.taskToday[i].description = element.value;
+          this.taskToday[i].completed = false;
           localStorage.setItem('TaskToday', JSON.stringify(this.taskToday));
           this.refresh();
         }
