@@ -14,7 +14,7 @@ module.exports = {
 
     new HtmlWebpackPlugin({
 
-      title: 'Output Management',
+      title: 'Today\'s tasks',
 
     }),
 
@@ -23,7 +23,7 @@ module.exports = {
 
     filename: '[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
-    publicPath: '/webpack-demo/',
+    publicPath: '',
 
   },
   optimization: {
