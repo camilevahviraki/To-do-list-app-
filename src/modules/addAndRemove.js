@@ -1,74 +1,126 @@
-const checkItem = localStorage.getItem('TaskToday');
-let toDoList = [];
+import displayTasks from './displayTasks.js';
+import ShowAndHide from './inputShow.js';
+import SteerChecked from './StearChecked.js';
 
-class UserTask {
-  constructor(title1, author1, id1) {
-    this.description = title1;
-    this.completed = author1;
-    this.index = id1;
+class UpdateList {
+  constructor() {
+    this.taskToday = JSON.parse(localStorage.getItem('TaskToday'));
+    this.message = document.getElementById('error_message');
   }
 
-  add() {
-    if (this.title === '') {
-      alert('Fill all inputs');
-    } else if (!checkItem) {
-      toDoList.push(this);
-      localStorage.setItem('TaskToday', JSON.stringify(toDoList));
-      console.log(toDoList);
-      location.reload();
+  computeTask() {
+    const input = document.getElementById('inputD');
+    input.addEventListener('keypress', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        if (this.taskToday) {
+          this.add(input.value, false, this.taskToday.length);
+        } else {
+          this.add(input.value, false, 0);
+        }
+      }
+    });
+    this.refresh();
+  }
+
+  add(title, completed, index) {
+    this.taskToday = JSON.parse(localStorage.getItem('TaskToday'));
+    if (title === '') {
+      this.message.innerText = 'Please, Add a task before sumit!';
     } else {
-      const ArrayStored = localStorage.getItem('TaskToday');
-      const ArrayStoredParse = JSON.parse(ArrayStored);
-      ArrayStoredParse.push(this);
-      localStorage.setItem('TaskToday', JSON.stringify(ArrayStoredParse));
-      toDoList = JSON.parse(ArrayStored);
-      location.reload();
-      console.log(toDoList);
+      this.message.innerText = '';
+      const input = document.getElementById('inputD');
+      input.value = '';
+      if (this.taskToday) {
+        this.taskToday = [...this.taskToday, { description: title, completed, id: index }];
+        localStorage.setItem('TaskToday', JSON.stringify(this.taskToday));
+      } else {
+        this.taskToday = [{ description: title, completed, id: index }];
+        localStorage.setItem('TaskToday', JSON.stringify(this.taskToday));
+      }
     }
+    this.refresh();
+  }
+
+  removeTask() {
+    const recycle = document.getElementById('imgRecycle');
+    recycle.addEventListener('click', () => {
+      this.taskToday = [];
+      localStorage.setItem('TaskToday', JSON.stringify(this.taskToday));
+      this.refresh();
+      this.message.innerText = '';
+    });
+
+    const removeList = document.querySelectorAll('.imgRemove');
+    removeList.forEach((button, i) => {
+      button.addEventListener('click', () => {
+        this.taskToday = this.taskToday.filter((task) => task.id !== i);
+        localStorage.setItem('TaskToday', JSON.stringify(this.taskToday));
+        this.updateId();
+        this.refresh();
+        this.message.innerText = '';
+      });
+    });
+
+    const buttonRemove = document.getElementById('btnRemove');
+    buttonRemove.addEventListener('click', () => {
+      this.taskToday = this.taskToday.filter((task) => task.completed !== true);
+      localStorage.setItem('TaskToday', JSON.stringify(this.taskToday));
+      this.updateId();
+      this.refresh();
+      this.message.innerText = '';
+    });
+  }
+
+  setCompleted = () => {
+    const checkBoxs = document.querySelectorAll('.check');
+    checkBoxs.forEach((check, i) => {
+      check.addEventListener('click', () => {
+        this.message.innerText = '';
+        if (this.taskToday[i].completed === true) {
+          this.taskToday[i].completed = false;
+          checkBoxs[i].checked = false;
+          document.getElementById(`ptask${i}`).style.textDecoration = 'none';
+          localStorage.setItem('TaskToday', JSON.stringify(this.taskToday));
+        } else {
+          this.taskToday[i].completed = true;
+          checkBoxs[i].checked = true;
+          document.getElementById(`ptask${i}`).style.textDecoration = 'line-through rgb(68, 68, 68)';
+          localStorage.setItem('TaskToday', JSON.stringify(this.taskToday));
+        }
+      });
+    });
   }
 
   updateStore() {
-    const ArrayStored = localStorage.getItem('TaskToday');
-    const ArrayStoredParse = JSON.parse(ArrayStored);
-    const a = this;
     const inputs = document.querySelectorAll('.inputTask');
-    inputs.forEach((element, index) => {
+    inputs.forEach((element, i) => {
       element.addEventListener('keypress', (event) => {
         if (event.key === 'Enter') {
-          event.preventDefault();
-
-          ArrayStoredParse.forEach((a, i) => {
-            const listUpdate = document.getElementById(i);
-            ArrayStoredParse[i].description = listUpdate.value;
-            localStorage.setItem('TaskToday', JSON.stringify(ArrayStoredParse));
-            location.reload();
-          });
+          this.taskToday[i].description = element.value;
+          localStorage.setItem('TaskToday', JSON.stringify(this.taskToday));
+          this.refresh();
         }
       });
     });
   }
 
   updateId() {
-    const b = this;
-    const TasksR = JSON.parse(localStorage.getItem('TaskToday'));
-    TasksR.forEach((a, i) => {
-      a.index = i;
-      localStorage.setItem('TaskToday', JSON.stringify(TasksR));
+    this.taskToday.forEach((task, i) => {
+      task.id = i;
+      localStorage.setItem('TaskToday', JSON.stringify(this.taskToday));
     });
   }
 
-  removeTask() {
-    const removeList = document.querySelectorAll('.imgRemove');
-    const BookStored = JSON.parse(localStorage.getItem('TaskToday'));
-    removeList.forEach((a, i) => {
-      document.getElementById(`imtrash${i}`).addEventListener('click', () => {
-        const BookFiltered = BookStored.filter((book, index) => book.index !== i);
-        localStorage.setItem('TaskToday', JSON.stringify(BookFiltered));
-        location.reload();
-        this.updateId();
-      });
-    });
+  refresh() {
+    displayTasks(this.taskToday);
+    ShowAndHide.Input();
+    ShowAndHide.Trash();
+    this.removeTask();
+    this.updateStore();
+    this.setCompleted();
+    SteerChecked();
   }
 }
 
-export default UserTask;
+export default UpdateList;
