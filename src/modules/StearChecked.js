@@ -6,7 +6,6 @@ const SteerChecked = () => {
     if (a.completed === true) {
       checkBoxs[i].checked = true;
       document.getElementById(`ptask${i}`).style.textDecoration = 'line-through rgb(68, 68, 68)';
-      console.log('checkBox', i);
     }
   });
 };
