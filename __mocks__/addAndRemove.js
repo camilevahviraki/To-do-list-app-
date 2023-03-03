@@ -1,87 +1,90 @@
-import 'jest-localstorage-mock';
-
-const jsdom = require('jsdom');
-
-const { JSDOM } = jsdom;
-const dom = new JSDOM(`
-<!DOCTYPE html>
-<p>Hello world</p>`);
-const { document } = (new JSDOM('...')).window;
-
-const checkItem = localStorage.getItem('TaskToday');
-const toDoList = [];
-
-class UserTask {
-  constructor(title1, author1, id1) {
-    this.description = title1;
-    this.completed = author1;
-    this.index = id1;
+class UpdateList {
+  constructor() {
+    this.taskToday = JSON.parse(localStorage.getItem('TaskToday'));
+    this.message = document.getElementById('error_message');
   }
 
-  add() {
-    if (this.title1 === '') {
-      return -1;
-    } if (!checkItem) {
-      toDoList.push(this);
-      localStorage.setItem('TaskToday', JSON.stringify(toDoList));
-      return toDoList.length;
+  computeTask() {
+    const input = document.getElementById('inputD');
+    input.addEventListener('keypress', (event) => {
+      if (event.key === 'Enter') {
+        event.preventDefault();
+        if (this.taskToday) {
+          this.add(input.value, false, this.taskToday.length);
+        } else {
+          this.add(input.value, false, 0);
+        }
+      }
+    });
+    this.refresh();
+  }
+
+  add(title, completed, index) {
+    this.taskToday = JSON.parse(localStorage.getItem('TaskToday'));
+    if (title === '') {
+      this.message.innerText = 'Please, Add a task before sumit!';
+    } else {
+      this.message.innerText = '';
+      const input = document.getElementById('inputD');
+      input.value = '';
+      if (this.taskToday) {
+        this.taskToday = [...this.taskToday, { description: title, completed, id: index }];
+        localStorage.setItem('TaskToday', JSON.stringify(this.taskToday));
+      } else {
+        this.taskToday = [{ description: title, completed, id: index }];
+        localStorage.setItem('TaskToday', JSON.stringify(this.taskToday));
+      }
     }
-    const ArrayStored = localStorage.getItem('TaskToday');
-    const ArrayStoredParse = JSON.parse(ArrayStored);
-    ArrayStoredParse.push(this);
-    localStorage.setItem('TaskToday', JSON.stringify(ArrayStoredParse));
-    return ArrayStoredParse.length;
+    this.refresh();
+    return this.taskToday.length;
   }
 
-  updateStore(description, id) {
-    const ArrayStored = localStorage.getItem('TaskToday');
-    const ArrayStoredParse = JSON.parse(ArrayStored);
-    const a = this;
-    if (ArrayStoredParse.length === 0 || ArrayStoredParse.length < id) {
-      return -1;
-    }
-    ArrayStoredParse[id].description = description;
-    localStorage.setItem('TaskToday', JSON.stringify(ArrayStoredParse));
-    return JSON.parse(localStorage.getItem('TaskToday'))[id].description;
-  }
+  removeTask() {
+    const recycle = document.getElementById('imgRecycle');
+    recycle.addEventListener('click', () => {
+      this.taskToday = [];
+      localStorage.setItem('TaskToday', JSON.stringify(this.taskToday));
+      this.refresh();
+      return this.taskToday.length;
+    });
 
-  updateId() {
-    const b = this;
-    const TasksR = JSON.parse(localStorage.getItem('TaskToday'));
-    TasksR.forEach((a, i) => {
-      a.index = i;
-      localStorage.setItem('TaskToday', JSON.stringify(TasksR));
+    const removeList = document.querySelectorAll('.imgRemove');
+    removeList.forEach((button, i) => {
+      button.addEventListener('click', () => {
+        this.taskToday = this.taskToday.filter((task) => task.id !== i);
+        localStorage.setItem('TaskToday', JSON.stringify(this.taskToday));
+        this.updateId();
+        this.refresh();
+        return this.taskToday.length;
+      });
     });
   }
 
-  removeTask(id) {
-    this.updateId();
-    const BookStored = JSON.parse(localStorage.getItem('TaskToday'));
-    const BookFiltered = BookStored.filter((book, index) => book.index !== id);
-    localStorage.setItem('TaskToday', JSON.stringify(BookFiltered));
-    const testing = JSON.parse(localStorage.getItem('TaskToday'));
-    return testing.length;
+  updateStore() {
+    const inputs = document.querySelectorAll('.inputTask');
+    inputs.forEach((element, i) => {
+      element.addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') {
+          this.taskToday[i].description = element.value;
+          localStorage.setItem('TaskToday', JSON.stringify(this.taskToday));
+          this.refresh();
+        }
+      });
+    });
+    return this.taskToday.length;
   }
 
-  check(id) {
-    this.updateId();
-    const TasksR = JSON.parse(localStorage.getItem('TaskToday'));
-    if (TasksR[id].completed === true) {
-      TasksR[id].completed = false;
-      localStorage.setItem('TaskToday', JSON.stringify(TasksR));
-    } else {
-      TasksR[id].completed = true;
-      localStorage.setItem('TaskToday', JSON.stringify(TasksR));
-    }
+  updateId() {
+    this.taskToday.forEach((task, i) => {
+      task.id = i;
+      localStorage.setItem('TaskToday', JSON.stringify(this.taskToday));
+    });
   }
 
-  btnRemoveChecked() {
-    this.updateId();
-    const TasksR = JSON.parse(localStorage.getItem('TaskToday'));
-    const BookFiltered = TasksR.filter((book) => book.completed !== true);
-    localStorage.setItem('TaskToday', JSON.stringify(BookFiltered));
-    return BookFiltered.length;
+  refresh() {
+    this.removeTask();
+    this.updateStore();
   }
 }
 
-export default UserTask;
+export default UpdateList;
