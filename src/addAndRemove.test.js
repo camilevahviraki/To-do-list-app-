@@ -1,9 +1,4 @@
-import jsdom from 'jsdom';
 import UserTask from '../__mocks__/addAndRemove.js';
-
-const { JSDOM } = jsdom;
-const dom = new JSDOM('<!DOCTYPE html>');
-const { document } = (new JSDOM('...')).window;
 
 const addAndRemove = new UserTask();
 
