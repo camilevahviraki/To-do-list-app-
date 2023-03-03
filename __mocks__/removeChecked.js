@@ -1,4 +1,3 @@
-import UserTask from './addAndRemove';
 import 'jest-localstorage-mock';
 
 const removeChecked = () => {
@@ -16,13 +15,6 @@ const removeChecked = () => {
         localStorage.setItem('TaskToday', JSON.stringify(TasksR));
       }
     };
-
-    function buttonRemove() {
-      new UserTask().updateId();
-      const BookFiltered = TasksR.filter((book) => book.completed !== true);
-      localStorage.setItem('TaskToday', JSON.stringify(BookFiltered));
-      // location.reload();
-    }
   });
 };
 
