@@ -15,56 +15,95 @@ button {
   position: absolute;
   right: 20px;
   cursor: pointer;
+  filter: invert(1);
 }
 
 .container {
   width: 70%;
   max-width: 680px;
-  border: 1px solid rgba(139, 137, 137, 0.623);
-  box-shadow: 1px 1px 15px #646464;
+  /* border: 1px solid rgba(139, 137, 137, 0.623); */
+  /* box-shadow: 1px 1px 15px #646464; */
   margin-top: 100px;
 }
 
 .container h3 {
-  padding: 0 8px;
+  padding: 0 1%;
   height: 51px;
   display: flex;
   align-items: center;
-  margin: 0;
   position: relative;
   font-family: 'Oxygen', sans-serif;
+  margin: 20px 0;
+  width: calc(98% - 2px);
+  background-color: #0c1113;
+  color: #fdf6e6;
+  border-radius: 8px;
 }
 
 body {
   display: flex;
   flex-direction: column;
   align-items: center;
+  min-height: 100vh;
+  background-color: #06161d;
 }
 
+.input-add-new-wrapp {
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: center;
+  background-color: #0c1113;
+  height: 52px;
+  margin: 20px 0;
+  border-radius: 8px;
+}
+
+.icon-add-new {
+  position: absolute;
+  filter: invert(1);
+  width: 20px;
+  height: 20px;
+  padding: 4px;
+  border: 1px solid #12181a;
+  border-radius: 50%;
+  transform: rotate(45deg);
+  top: 10px;
+  left: 8px;
+  cursor: pointer;
+;}
+
 #inputD {
-  width: calc(100% - 14px);
+  width: calc(100% - 68px);
   border: none;
   border-top: 1px solid rgba(139, 137, 137, 0.623);
   height: 48px;
   padding-left: 12px;
-  color: rgb(110, 110, 110);
+  color: #fdf6e6;
   font-family: 'Oxygen', sans-serif;
+  background-color: #0c1113;
+  border-radius: 8px;
+  position: absolute;
+  right: 0;
 }
 
 #list {
   width: 100%;
   margin: 0;
   padding: 0;
+  border-top-right-radius: 8px;
+  border-top-left-radius: 8px;
+  color: #fdf6e6;
+  background-color: #0c1113;
 }
 
 #list li {
   height: 51px;
-  border-top: 1px solid rgba(139, 137, 137, 0.623);
+  border-bottom: 1px solid rgba(139, 137, 137, 0.623);
   display: flex;
   align-items: center;
   position: relative;
   padding-left: 12px;
-  color: rgb(87, 85, 85);
 }
 
 .button_clear {
@@ -73,20 +112,74 @@ body {
   border-top: 1px solid rgba(139, 137, 137, 0.623);
   border-radius: 0;
   height: 51px;
-  color: rgb(110, 110, 110);
-  font-family: 'Oxygen', sans-serif;
+  color: #fdf6e6;
+  font-family: 'Circular-Loom', sans-serif;
   font-size: 14px;
   cursor: pointer;
+  background-color: #0c1113;
+  border-bottom-left-radius: 8px;
+  border-bottom-right-radius: 8px;
 }
 
 .button_clear:hover {
-  background-color: #d17436;
+  background-color: #1c2124;
   color: #fff;
 }
 
-.check {
+.check-container {
+  position: relative;
+  width: 20px;
+  height: 20px;
   margin-right: 12px;
+  background-color: #0c1113;
+  border: 1px solid #646464;
+  border-radius: 50%;
   cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  font-size: 18px;
+}
+
+.check-container:hover input ~ .checkmark {
+  background-color: #171b1d;
+}
+
+.check {
+  cursor: pointer;
+  width: 0;
+  height: 0;
+  position: absolute;
+  opacity: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 20px;
+  width: 20px;
+  background-color: #0c1113;
+  border-radius: 50%;
+}
+
+.checkmark-img {
+  filter: invert();
+  position: absolute;
+  display: none;
+  width: 16px;
+  height: auto;
+  top: 3px;
+  right: 3px;
+}
+
+.check-container input:checked ~ .checkmark-img {
+  display: block;
+}
+
+.check-container input:checked ~ .checkmark {
+  background-color: rgb(7, 23, 31);
 }
 
 #imgRecycle {
@@ -95,26 +188,51 @@ body {
   position: absolute;
   right: 12px;
   cursor: pointer;
+  filter: invert(85%);
+}
+
+#imgRecycle:hover {
+  transform: rotate(180deg);
+  transition: transform 1s;
 }
 
 .inputTask {
-  width: 100%;
+  width: 85%;
   border: none;
   border-top: 1px solid rgba(139, 137, 137, 0.623);
-  color: rgb(87, 85, 85);
+  color: rgb(224, 221, 221);
   height: 51px;
-  font-family: 'Oxygen', sans-serif;
+  font-family: 'Circular-Loom', sans-serif;
   font-size: 14px;
   display: none;
-  background-color: rgba(253, 145, 142, 0.445);
+  background-color: #1a1f22;
   cursor: pointer;
+  border-radius: 8px;
 }
 
 .imgRemove {
-  width: 24px;
+  width: 20px;
   height: 19px;
   position: absolute;
   right: 20px;
   display: none;
   z-index: 10;
+  cursor: pointer;
+  filter: invert(1);
+}
+
+.pTask {
+  width: 85%;
+  font-family: 'Circular-Loom', sans-serif;
+}
+
+#error_message {
+  font-family: 'Circular-Loom', sans-serif;
+  width: 60w;
+  max-width: 680px;
+  position: absolute;
+  top: 60px;
+  left: 50%;
+  background-color: #130f0c3b;
+  color: #fff;
 }
