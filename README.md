@@ -103,7 +103,7 @@ You can deploy this project using:
 
 ## 🔭 Future Features <a name="future-features"></a>
 
-- **Add the drag and drop functionnality**
+- Add the drag and drop functionnality
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
  
