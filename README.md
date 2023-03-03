@@ -34,7 +34,6 @@
 ### Tech Stack <a name="tech-stack"></a>
 
 <details>
-  <summary>Client</summary>
   <ul>
     <li><a href="#">html</a></li>
     <li><a href="#">css</a></li>
@@ -45,9 +44,9 @@
 ### Key Features <a name="key-features"></a>
 
 
-- **Simple overview and access**
-- **Data are stored in the users computer**
-- **Desktop and mobile version of the website**
+- Simple overview and access
+- Data are stored in the users computer
+- Desktop and mobile version of the website
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
