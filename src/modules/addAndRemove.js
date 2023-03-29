@@ -6,6 +6,7 @@ class UpdateList {
   constructor() {
     this.taskToday = JSON.parse(localStorage.getItem('TaskToday'));
     this.message = document.getElementById('error_message');
+    this.taskList = document.querySelectorAll('.listTasks');
   }
 
   computeTask() {
@@ -121,6 +122,31 @@ class UpdateList {
     });
   }
 
+  draggAndDrop() {
+    this.taskList = document.querySelectorAll('.listTasks');
+    let dragedKey = null;
+    let dragedObj = {};
+    this.taskList.forEach((task, key) => {
+      task.addEventListener('drag', (e) => {
+        e.preventDefault();
+        dragedKey = key;
+        dragedObj = this.taskToday[key];
+      });
+
+      task.addEventListener('dragover', (e) => {
+        e.preventDefault();
+      });
+
+      task.addEventListener('drop', (e) => {
+        e.preventDefault();
+        this.taskToday.splice(dragedKey, 1);
+        this.taskToday.splice(key, 0, dragedObj);
+        this.updateId();
+        this.refresh();
+      });
+    });
+  }
+
   refresh() {
     displayTasks(this.taskToday);
     ShowAndHide.Input();
@@ -129,6 +155,7 @@ class UpdateList {
     this.updateStore();
     this.setCompleted();
     SteerChecked();
+    this.draggAndDrop();
   }
 }
 
